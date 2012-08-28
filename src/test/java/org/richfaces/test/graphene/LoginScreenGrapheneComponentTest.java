@@ -22,6 +22,7 @@
 package org.richfaces.test.graphene;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -32,8 +33,11 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.jboss.arquillian.drone.api.annotation.Drone;
-import com.thoughtworks.selenium.DefaultSelenium;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 
 import java.io.File;
 import java.net.URL;
@@ -43,8 +47,7 @@ import java.net.URL;
  */
 
 @RunWith(Arquillian.class)
-@Ignore
-public class LoginScreenSeleniumTest {
+public class LoginScreenGrapheneComponentTest {
     private static final String WEBAPP_SRC = "src/main/webapp";
 
     @Deployment(testable = false)
@@ -60,22 +63,30 @@ public class LoginScreenSeleniumTest {
     }
 
     @Drone
-    DefaultSelenium browser;
+    WebDriver browser;
 
     @ArquillianResource
     URL deploymentURL;
 
+    @FindBy(id="loginForm")
+    LoginComponent loginForm;
+
+    public void loadPage() {
+        String page = deploymentURL + "login.jsf";
+        browser.get(page);
+        PageFactory.initElements(new DefaultElementLocatorFactory(browser), this);
+    }
+
     @Test
     public void should_login_successfully() {
-        browser.open(deploymentURL + "login.jsf");
+        loadPage();
 
-        browser.type("id=loginForm:username", "demo");
-        browser.type("id=loginForm:password", "demo");
-        browser.click("id=loginForm:login");
-        browser.waitForPageToLoad("15000");
+        loginForm.setUsername("demo");
+        loginForm.setPassword("demo");
+        loginForm.submit();
 
         Assert.assertTrue("User should be logged in!",
-                browser.isElementPresent("xpath=//li[contains(text(), 'Welcome')]"));
+                browser.findElements(By.xpath("//li[contains(text(), 'Welcome')]")).size() > 0);
     }
 
 }

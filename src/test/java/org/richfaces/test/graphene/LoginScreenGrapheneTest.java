@@ -34,6 +34,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import com.thoughtworks.selenium.DefaultSelenium;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 
 import java.io.File;
 import java.net.URL;
@@ -44,7 +50,7 @@ import java.net.URL;
 
 @RunWith(Arquillian.class)
 @Ignore
-public class LoginScreenSeleniumTest {
+public class LoginScreenGrapheneTest {
     private static final String WEBAPP_SRC = "src/main/webapp";
 
     @Deployment(testable = false)
@@ -60,22 +66,38 @@ public class LoginScreenSeleniumTest {
     }
 
     @Drone
-    DefaultSelenium browser;
+    WebDriver browser;
 
     @ArquillianResource
     URL deploymentURL;
 
+    @FindBy(id="loginForm:username")
+    private WebElement usernameInput;
+
+    @FindBy(id="loginForm:password")
+    private WebElement passwordInput;
+
+    @FindBy(id="loginForm:login")
+    private WebElement loginButton;
+
+
+    public void loadPage() {
+        String page = deploymentURL + "login.jsf";
+        browser.get(page);
+        PageFactory.initElements(new DefaultElementLocatorFactory(browser), this);
+    }
+
+
     @Test
     public void should_login_successfully() {
-        browser.open(deploymentURL + "login.jsf");
+        loadPage();
 
-        browser.type("id=loginForm:username", "demo");
-        browser.type("id=loginForm:password", "demo");
-        browser.click("id=loginForm:login");
-        browser.waitForPageToLoad("15000");
+        usernameInput.sendKeys("demo");
+        passwordInput.sendKeys("demo");
+        loginButton.submit();
 
         Assert.assertTrue("User should be logged in!",
-                browser.isElementPresent("xpath=//li[contains(text(), 'Welcome')]"));
+                browser.findElements(By.xpath("//li[contains(text(), 'Welcome')]")).size() > 0);
     }
 
 }

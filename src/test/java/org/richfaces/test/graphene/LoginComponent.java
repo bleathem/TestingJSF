@@ -21,30 +21,38 @@
  **/
 package org.richfaces.test.graphene;
 
-import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
-import org.jboss.arquillian.ajocado.utils.URLUtils;
-import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.jboss.arquillian.graphene.spi.annotations.Root;
+import org.jboss.arquillian.graphene.spi.components.common.AbstractComponent;
+import org.jboss.arquillian.graphene.spi.components.common.AbstractComponentStub;
+import org.jboss.arquillian.graphene.spi.components.common.Component;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-import java.net.URL;
+import javax.ejb.ConcurrencyManagement;
 
 /**
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
-@RunWith(Arquillian.class)
-@Ignore
-public class GoogleTest {
+public class LoginComponent extends AbstractComponent {
 
-    URL url = URLUtils.buildUrl("http://www.google.com/");
+    @FindBy(id="loginForm:username")
+    private WebElement usernameInput;
 
-    @Drone
-    GrapheneSelenium browser;
+    @FindBy(id="loginForm:password")
+    private WebElement passwordInput;
 
-    @Test
-    public void testOpeningHomePage() {
-        browser.open(url);
+    @FindBy(id="loginForm:login")
+    private WebElement loginButton;
+
+    public void setUsername(Object username) {
+        usernameInput.sendKeys(username.toString());
+    }
+
+    public void setPassword(Object password) {
+        passwordInput.sendKeys(password.toString());
+    }
+
+    public void submit() {
+        loginButton.submit();
     }
 }
