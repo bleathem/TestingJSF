@@ -113,6 +113,9 @@
     <profiles>
         <profile>
             <id>arquillian-jbossas-managed</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.spec</groupId>
