@@ -21,8 +21,28 @@
  **/
 package org.richfaces.test.graphene;
 
+import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
+import org.jboss.arquillian.ajocado.utils.URLUtils;
+import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import java.net.URL;
+
 /**
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
+@RunWith(Arquillian.class)
 public class GoogleTest {
+
+    URL url = URLUtils.buildUrl("http://www.google.com/");
+
+    @Drone
+    GrapheneSelenium browser;
+
+    @Test
+    public void testOpeningHomePage() {
+        browser.open(url);
+    }
 }

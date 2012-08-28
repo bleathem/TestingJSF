@@ -91,6 +91,14 @@
             <version>1.6.4</version>
             <scope>test</scope>
         </dependency>
+        <!-- Graphene dependency chain - imports all other dependencies required -->
+        <dependency>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>arquillian-graphene</artifactId>
+            <version>1.0.0.Final</version>
+            <type>pom</type>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>GrapheneTest</finalName>
