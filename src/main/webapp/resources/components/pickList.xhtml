@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+
+<composite:interface>
+    <composite:attribute name="target" required="true" type="java.util.List" />
+    <composite:attribute name="all" required="true" />
+</composite:interface>
+
+<composite:implementation xmlns:my="http://java.sun.com/jsf/composite/components">
+    <rich:pickList id="pickList" value="#{cc.attrs.target}" styleClass="pickList">
+        <f:selectItems value="#{cc.attrs.all}" var="item" itemValue="#{item}" itemLabel="#{item}"/>
+        <f:ajax event="change" execute="@form" render="out"/>
+    </rich:pickList>
+    <h:commandButton value="submit" id="submitButton" styleClass="submitButton">
+        <f:ajax execute="pickList" render="pickList out"/>
+    </h:commandButton>
+
+    <br />
+
+    <h:panelGroup id="out" styleClass="out">
+        <ui:repeat value="#{cc.attrs.target}" var="value">
+            <h:outputText styleClass="value" value="#{value}"/>
+            <br/>
+        </ui:repeat>
+    </h:panelGroup>
+
+</composite:implementation>
+</html>

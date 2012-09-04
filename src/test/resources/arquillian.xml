@@ -1,0 +1,25 @@
+<arquillian xmlns="http://jboss.org/schema/arquillian"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="
+        http://jboss.org/schema/arquillian
+        http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+    <engine>
+        <property name="deploymentExportPath">target</property>
+    </engine>
+    <container qualifier="jbossas-remote" default="true">
+    </container>
+    <container qualifier="jbossas-managed">
+        <configuration>
+            <property name="jbossHome">/opt/jboss/test/jboss-as-7.1.1.Final</property>
+        </configuration>
+    </container>
+    <extension qualifier="webdriver">
+        <property name="useJavaScript">true</property>
+
+        <property name="browserCapabilities">${browser}</property>
+        <property name="remoteReusable">${remoteReusable}</property>
+        <property name="remoteAddress">http://localhost:4444/wd/hub/</property>
+
+        <property name="chromeDriverBinary">/opt/google/chrome/chromedriver</property>
+    </extension>
+</arquillian>

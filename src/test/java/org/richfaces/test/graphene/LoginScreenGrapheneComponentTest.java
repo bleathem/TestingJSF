@@ -47,6 +47,7 @@ import java.net.URL;
  */
 
 @RunWith(Arquillian.class)
+@Ignore
 public class LoginScreenGrapheneComponentTest {
     private static final String WEBAPP_SRC = "src/main/webapp";
 
