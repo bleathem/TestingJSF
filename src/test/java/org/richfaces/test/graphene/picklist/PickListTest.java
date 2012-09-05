@@ -33,6 +33,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -50,6 +51,7 @@ import java.util.List;
  */
 
 @RunWith(Arquillian.class)
+@Ignore
 public class PickListTest {
     private static final String WEBAPP_SRC = "src/main/webapp";
 

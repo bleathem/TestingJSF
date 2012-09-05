@@ -132,6 +132,23 @@
             <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-warp-impl</artifactId>
+            <version>1.0.0.Alpha2-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-warp-phaser</artifactId>
+            <version>1.0.0.Alpha2-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.protocol</groupId>
+            <artifactId>arquillian-protocol-servlet</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>GrapheneTest</finalName>
@@ -163,10 +180,6 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>
-                <remoteReusable>true</remoteReusable>
-                <browser>chrome</browser>
-            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.spec</groupId>
@@ -205,5 +218,30 @@
                 </dependency>
             </dependencies>
         </profile>
+
+        <profile>
+            <id>webdriver-chrome</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <browser>chrome</browser>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>webdriver-firefox</id>
+            <properties>
+                <browser>firefox</browser>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>webdriver-remote-reusable</id>
+            <properties>
+                <remoteReusable>true</remoteReusable>
+            </properties>
+        </profile>
+
     </profiles>
 </project>
