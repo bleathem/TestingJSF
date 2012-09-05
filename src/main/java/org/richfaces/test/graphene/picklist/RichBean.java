@@ -21,8 +21,8 @@
  **/
 package org.richfaces.test.graphene.picklist;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.List;
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
 @RequestScoped
-@ManagedBean(name="richBean")
+@Named
 public class RichBean implements Serializable {
 
     private static final long serialVersionUID = -2403138958014741653L;

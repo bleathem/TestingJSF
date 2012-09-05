@@ -30,6 +30,7 @@ import org.jboss.arquillian.warp.extension.servlet.BeforeServlet;
 import org.jboss.arquillian.warp.spi.WarpCommons;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -47,6 +48,7 @@ import static org.junit.Assert.*;
  */
 @RunWith(Arquillian.class)
 @WarpTest
+@Ignore
 public class BasicWarpTest {
 
     @Drone
