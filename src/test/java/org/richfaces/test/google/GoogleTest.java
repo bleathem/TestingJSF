@@ -19,40 +19,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  **/
-package org.richfaces.test.graphene;
+package org.richfaces.test.google;
 
-import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.ajocado.utils.URLUtils;
+import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
 
-import javax.inject.Inject;
+import java.net.URL;
 
 /**
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
 @RunWith(Arquillian.class)
-@Ignore
-public class GreeterTest {
+public class GoogleTest {
 
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(Greeter.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }
+    URL url = URLUtils.buildUrl("http://www.google.com/");
 
-    @Inject
-    Greeter greeter;
+    @Drone
+    WebDriver browser;
 
     @Test
-    public void should_create_greeting() {
-        Assert.assertEquals("Hello, Earthling!", greeter.createGreeting("Earthling"));
-        greeter.greet(System.out, "Earthling");
+    public void testOpeningHomePage() {
+        browser.get(url.toString());
     }
 }

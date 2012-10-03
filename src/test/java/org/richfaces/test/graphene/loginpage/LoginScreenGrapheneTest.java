@@ -19,9 +19,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  **/
-package org.richfaces.test.graphene;
+package org.richfaces.test.graphene.loginpage;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -29,11 +30,18 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import com.thoughtworks.selenium.DefaultSelenium;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
+import org.richfaces.test.graphene.Credentials;
+import org.richfaces.test.graphene.LoginController;
+import org.richfaces.test.graphene.User;
 
 import java.io.File;
 import java.net.URL;
@@ -43,8 +51,7 @@ import java.net.URL;
  */
 
 @RunWith(Arquillian.class)
-@Ignore
-public class LoginScreenSeleniumTest {
+public class LoginScreenGrapheneTest {
     private static final String WEBAPP_SRC = "src/main/webapp";
 
     @Deployment(testable = false)
@@ -60,22 +67,38 @@ public class LoginScreenSeleniumTest {
     }
 
     @Drone
-    DefaultSelenium browser;
+    WebDriver browser;
 
     @ArquillianResource
     URL deploymentURL;
 
-    @Test
-    public void should_login_successfully() {
-        browser.open(deploymentURL + "login.jsf");
+    @FindBy(id="loginForm:username")
+    private WebElement usernameInput;
 
-        browser.type("id=loginForm:username", "demo");
-        browser.type("id=loginForm:password", "demo");
-        browser.click("id=loginForm:login");
-        browser.waitForPageToLoad("15000");
+    @FindBy(id="loginForm:password")
+    private WebElement passwordInput;
+
+    @FindBy(id="loginForm:login")
+    private WebElement loginButton;
+
+
+    public void loadPage() {
+        String page = deploymentURL + "login.jsf";
+        browser.get(page);
+        PageFactory.initElements(new DefaultElementLocatorFactory(browser), this);
+    }
+
+
+    @Test
+    public void should_login_successfully() throws Exception {
+        loadPage();
+
+        usernameInput.sendKeys("demo");
+        passwordInput.sendKeys("demo");
+        loginButton.click();
 
         Assert.assertTrue("User should be logged in!",
-                browser.isElementPresent("xpath=//li[contains(text(), 'Welcome')]"));
+                browser.findElements(By.xpath("//li[contains(text(), 'Welcome')]")).size() > 0);
     }
 
 }

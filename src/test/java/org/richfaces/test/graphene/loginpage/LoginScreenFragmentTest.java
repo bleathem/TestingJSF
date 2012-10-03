@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  **/
-package org.richfaces.test.graphene;
+package org.richfaces.test.graphene.loginpage;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -30,7 +30,6 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -38,6 +37,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
+import org.richfaces.test.graphene.Credentials;
+import org.richfaces.test.graphene.LoginController;
+import org.richfaces.test.graphene.User;
 
 import java.io.File;
 import java.net.URL;
@@ -47,8 +49,7 @@ import java.net.URL;
  */
 
 @RunWith(Arquillian.class)
-@Ignore
-public class LoginScreenGrapheneComponentTest {
+public class LoginScreenFragmentTest {
     private static final String WEBAPP_SRC = "src/main/webapp";
 
     @Deployment(testable = false)
@@ -70,7 +71,7 @@ public class LoginScreenGrapheneComponentTest {
     URL deploymentURL;
 
     @FindBy(id="loginForm")
-    LoginComponent loginForm;
+    LoginFragment loginForm;
 
     public void loadPage() {
         String page = deploymentURL + "login.jsf";
@@ -84,7 +85,7 @@ public class LoginScreenGrapheneComponentTest {
 
         loginForm.setUsername("demo");
         loginForm.setPassword("demo");
-        loginForm.submit();
+        loginForm.click();
 
         Assert.assertTrue("User should be logged in!",
                 browser.findElements(By.xpath("//li[contains(text(), 'Welcome')]")).size() > 0);

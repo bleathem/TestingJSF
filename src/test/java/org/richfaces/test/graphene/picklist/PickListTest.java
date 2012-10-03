@@ -33,7 +33,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
@@ -51,7 +50,6 @@ import java.util.List;
  */
 
 @RunWith(Arquillian.class)
-@Ignore
 public class PickListTest {
     private static final String WEBAPP_SRC = "src/main/webapp";
 
@@ -79,7 +77,7 @@ public class PickListTest {
     URL deploymentURL;
 
     @FindBy(css=".pickList")
-    PickListComponent pickList;
+    PickListFragment pickList;
 
     @FindBy(css=".submitButton")
     WebElement submitButton;
@@ -88,7 +86,6 @@ public class PickListTest {
     WebElement outPanel;
 
     @Test
-//    @Ignore
     public void testPickListInPage() {
         String page = deploymentURL + "pickList.jsf";
         browser.get(page);
@@ -97,7 +94,6 @@ public class PickListTest {
     }
 
     @Test
-//    @Ignore
     public void testPickListWithStrings() {
         String page = deploymentURL + "pickList_strings.jsf";
         browser.get(page);
@@ -115,7 +111,7 @@ public class PickListTest {
 
     private void submitPickList() {
         pickList.addAll();
-        Graphene.waitGui();
+        Graphene.guardHttp(submitButton).submit();
         submitButton.submit();
         List<WebElement> elements = outPanel.findElements(By.cssSelector(".value"));
         List<String> values = new ArrayList<String>(elements.size());

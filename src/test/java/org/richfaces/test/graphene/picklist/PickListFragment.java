@@ -19,32 +19,39 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  **/
-package org.richfaces.test.graphene;
+package org.richfaces.test.graphene.picklist;
 
-import org.jboss.arquillian.ajocado.framework.GrapheneSelenium;
-import org.jboss.arquillian.ajocado.utils.URLUtils;
-import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
-@RunWith(Arquillian.class)
-@Ignore
-public class GoogleTest {
+public class PickListFragment {
 
-    URL url = URLUtils.buildUrl("http://www.google.com/");
+    @FindBy(css = ".rf-pick-src")
+    private WebElement sourceList;
 
-    @Drone
-    GrapheneSelenium browser;
+    @FindBy(css = ".rf-pick-tgt")
+    private WebElement targetList;
 
-    @Test
-    public void testOpeningHomePage() {
-        browser.open(url);
+    @FindBy(css = ".rf-pick-add-all")
+    private WebElement addAllButton;
+
+    public List<String> getSelectedItems() {
+        List<WebElement> elements = targetList.findElements(By.cssSelector(".rf-pick-opt"));
+        List<String> labels = new ArrayList<String>(elements.size());
+        for (WebElement element : elements) {
+            labels.add(element.getText());
+        }
+        return labels;
+    }
+
+    public void addAll() {
+        addAllButton.click();
     }
 }

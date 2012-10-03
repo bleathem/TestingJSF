@@ -19,13 +19,11 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  **/
-package org.richfaces.test.graphene.picklist;
+package org.richfaces.test.warp;
 
-import com.google.common.base.Predicate;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
-import org.jboss.arquillian.graphene.Graphene;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.arquillian.warp.*;
@@ -33,21 +31,19 @@ import org.jboss.arquillian.warp.extension.phaser.AfterPhase;
 import org.jboss.arquillian.warp.extension.phaser.BeforePhase;
 import org.jboss.arquillian.warp.extension.phaser.Phase;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.DependencyResolvers;
 import org.jboss.shrinkwrap.resolver.api.maven.MavenDependencyResolver;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.richfaces.test.graphene.picklist.PickListFragment;
+import org.richfaces.test.graphene.picklist.RichBean;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -58,6 +54,7 @@ import java.util.List;
 /**
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
+
 
 @WarpTest
 @RunWith(Arquillian.class)
@@ -72,7 +69,6 @@ public class PickListWarpTest {
         return ShrinkWrap.create(WebArchive.class, "picklistWarp.war")
                 .addPackage(RichBean.class.getPackage())
                 .addAsWebResource(new File(WEBAPP_SRC + "/pickList", "pickList.xhtml"))
-//                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"))
                 .addAsWebInfResource(new StringAsset("<faces-config version=\"2.0\"/>"), "faces-config.xml")
                 .addAsLibraries(resolver.artifact("org.richfaces.ui:richfaces-components-ui:4.3.0-SNAPSHOT").resolveAsFiles())
@@ -86,7 +82,7 @@ public class PickListWarpTest {
     URL deploymentURL;
 
     @FindBy(css=".pickList")
-    PickListComponent pickList;
+    PickListFragment pickList;
 
     @FindBy(css=".submitButton")
     WebElement submitButton;
@@ -100,7 +96,6 @@ public class PickListWarpTest {
         String page = deploymentURL + "pickList.jsf";
         browser.get(page);
 
-//        Warp.execute(new ClientAction() {
         Warp.filter(new JsfRequestFilter()).execute(new ClientAction() {
             @Override
             public void action() {
@@ -124,8 +119,6 @@ public class PickListWarpTest {
             return httpRequest.getUri().contains("pickList.jsf");
         }
     }
-
-
 
     public static class CheckListSize extends ServerAssertion {
 

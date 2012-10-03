@@ -102,14 +102,14 @@
         <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>
             <artifactId>arquillian-graphene</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>2.0.0.Alpha2</version>
             <type>pom</type>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.arquillian.graphene</groupId>
             <artifactId>graphene-webdriver-spi</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>2.0.0.Alpha2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
