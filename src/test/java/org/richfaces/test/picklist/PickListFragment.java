@@ -19,37 +19,39 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  **/
-package org.richfaces.test.arquillian;
+package org.richfaces.test.picklist;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
-@RunWith(Arquillian.class)
-public class GreeterTest {
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(Greeter.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+public class PickListFragment {
+
+    @FindBy(css = ".rf-pick-src")
+    private WebElement sourceList;
+
+    @FindBy(css = ".rf-pick-tgt")
+    private WebElement targetList;
+
+    @FindBy(css = ".rf-pick-add-all")
+    private WebElement addAllButton;
+
+    public List<String> getSelectedItems() {
+        List<WebElement> elements = targetList.findElements(By.cssSelector(".rf-pick-opt"));
+        List<String> labels = new ArrayList<String>(elements.size());
+        for (WebElement element : elements) {
+            labels.add(element.getText());
+        }
+        return labels;
     }
 
-    @Inject
-    Greeter greeter;
-
-    @Test
-    public void should_create_greeting() {
-        Assert.assertEquals("Hello, Earthling!", greeter.createGreeting("Earthling"));
-        greeter.greet(System.out, "Earthling");
+    public void addAll() {
+        addAllButton.click();
     }
 }

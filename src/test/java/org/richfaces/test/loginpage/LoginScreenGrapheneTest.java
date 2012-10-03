@@ -19,9 +19,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  **/
-package org.richfaces.test.graphene.loginpage;
+package org.richfaces.test.loginpage;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -34,9 +35,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 import org.richfaces.test.graphene.Credentials;
 import org.richfaces.test.graphene.LoginController;
 import org.richfaces.test.graphene.User;
@@ -49,7 +49,7 @@ import java.net.URL;
  */
 
 @RunWith(Arquillian.class)
-public class LoginScreenFragmentTest {
+public class LoginScreenGrapheneTest {
     private static final String WEBAPP_SRC = "src/main/webapp";
 
     @Deployment(testable = false)
@@ -68,24 +68,26 @@ public class LoginScreenFragmentTest {
     WebDriver browser;
 
     @ArquillianResource
-    URL deploymentURL;
+    URL contextPath;
 
-    @FindBy(id="loginForm")
-    LoginFragment loginForm;
+    @FindBy(id="loginForm:username")
+    private WebElement usernameInput;
 
-    public void loadPage() {
-        String page = deploymentURL + "login.jsf";
-        browser.get(page);
-        PageFactory.initElements(new DefaultElementLocatorFactory(browser), this);
-    }
+    @FindBy(id="loginForm:password")
+    private WebElement passwordInput;
+
+    @FindBy(id="loginForm:login")
+    private WebElement loginButton;
 
     @Test
-    public void should_login_successfully() {
-        loadPage();
+    @RunAsClient
+    public void should_login_successfully() throws Exception {
+        String page = contextPath + "login.jsf";
+        browser.get(page);
 
-        loginForm.setUsername("demo");
-        loginForm.setPassword("demo");
-        loginForm.click();
+        usernameInput.sendKeys("demo");
+        passwordInput.sendKeys("demo");
+        loginButton.click();
 
         Assert.assertTrue("User should be logged in!",
                 browser.findElements(By.xpath("//li[contains(text(), 'Welcome')]")).size() > 0);

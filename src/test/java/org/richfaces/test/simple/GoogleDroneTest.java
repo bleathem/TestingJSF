@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  **/
-package org.richfaces.test.google;
+package org.richfaces.test.simple;
 
 import org.jboss.arquillian.ajocado.utils.URLUtils;
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -34,7 +34,7 @@ import java.net.URL;
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
 @RunWith(Arquillian.class)
-public class GoogleTest {
+public class GoogleDroneTest {
 
     URL url = URLUtils.buildUrl("http://www.google.com/");
 

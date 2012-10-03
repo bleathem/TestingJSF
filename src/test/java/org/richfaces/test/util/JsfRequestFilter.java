@@ -19,25 +19,17 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  **/
-package org.richfaces.test.graphene.picklist;
+package org.richfaces.test.util;
 
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
+import org.jboss.arquillian.warp.HttpRequest;
+import org.jboss.arquillian.warp.RequestFilter;
 
 /**
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
-@FacesConverter("EntityBeanConverter")
-public class EntityBeanConverter implements Converter {
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String s) {
-        Integer value = Integer.parseInt(s);
-        return new EntityBean(String.format("Option %d", value), value.toString());
-    }
-
-    public String getAsString(FacesContext facesContext, UIComponent component, Object o) {
-        if (o == null) return null;
-        return ((EntityBean) o).getValue();
+public class JsfRequestFilter implements RequestFilter<HttpRequest> {
+    @Override
+    public boolean matches(HttpRequest httpRequest) {
+        return httpRequest.getUri().contains(".jsf");
     }
 }

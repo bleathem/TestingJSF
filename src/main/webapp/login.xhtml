@@ -3,10 +3,11 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-<head>
+<h:head>
     <title>Log in</title>
-</head>
-<body>
+    <h:outputStylesheet library="bootstrap/css" name="bootstrap.css" />
+</h:head>
+<h:body>
 <h:messages/>
 <h:form id="loginForm">
     <h:panelGrid columns="2">
@@ -18,5 +19,5 @@
                          action="#{loginController.login}"/>
     </h:panelGrid>
 </h:form>
-</body>
+</h:body>
 </html>

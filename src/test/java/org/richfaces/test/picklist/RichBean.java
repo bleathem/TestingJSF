@@ -19,10 +19,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  **/
-package org.richfaces.test.graphene.picklist;
+package org.richfaces.test.picklist;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,38 +31,39 @@ import java.util.List;
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
 @RequestScoped
-@ManagedBean()
-public class EntityBeanSelector implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Named
+public class RichBean implements Serializable {
+
+    private static final long serialVersionUID = -2403138958014741653L;
     private List<EntityBean> values;
     private List<String> strings;
 
-    public EntityBeanSelector() {
-        System.out.println("post construct: initialize beanselector");
+    public RichBean() {
+        System.out.println("post construct: initialize");
         values = new ArrayList<EntityBean>();
-        values.add(new EntityBean("Option 0", "0"));
         values.add(new EntityBean("Option 1", "1"));
         values.add(new EntityBean("Option 2", "2"));
         values.add(new EntityBean("Option 3", "3"));
         values.add(new EntityBean("Option 4", "4"));
 
         strings = new ArrayList<String>();
-        strings.add("Option 0");
-        strings.add("Option 1");
-        strings.add("Option 2");
-        strings.add("Option 3");
-        strings.add("Option 4");
+//        strings.add("Option 2");
+//        strings.add("Option 3");
     }
 
     public List<EntityBean> getValues() {
         return values;
     }
 
+    public void setValues(List<EntityBean> values) {
+        this.values = values;
+    }
+
     public List<String> getStrings() {
         return strings;
     }
 
-    public void setValues(List<EntityBean> values) {
-        this.values = values;
+    public void setStrings(List<String> strings) {
+        this.strings = strings;
     }
 }

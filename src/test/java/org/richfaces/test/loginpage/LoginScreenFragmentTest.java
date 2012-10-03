@@ -19,9 +19,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  **/
-package org.richfaces.test.graphene.loginpage;
+package org.richfaces.test.loginpage;
 
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -31,11 +32,9 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.jboss.arquillian.drone.api.annotation.Drone;
-import com.thoughtworks.selenium.DefaultSelenium;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.richfaces.test.graphene.Credentials;
 import org.richfaces.test.graphene.LoginController;
 import org.richfaces.test.graphene.User;
@@ -48,7 +47,7 @@ import java.net.URL;
  */
 
 @RunWith(Arquillian.class)
-public class LoginScreenSeleniumTest {
+public class LoginScreenFragmentTest {
     private static final String WEBAPP_SRC = "src/main/webapp";
 
     @Deployment(testable = false)
@@ -67,19 +66,19 @@ public class LoginScreenSeleniumTest {
     WebDriver browser;
 
     @ArquillianResource
-    URL deploymentURL;
+    URL contextPath;
+
+    @FindBy(id="loginForm")
+    LoginFragment loginForm;
 
     @Test
     public void should_login_successfully() {
-        browser.get(deploymentURL + "login.jsf");
+        String page = contextPath + "login.jsf";
+        browser.get(page);
 
-        WebElement usernameInput = browser.findElement(By.id("loginForm:username"));
-        usernameInput.sendKeys("demo");
-        WebElement passwordInput = browser.findElement(By.id("loginForm:password"));
-        passwordInput.sendKeys("demo");
-        WebElement button = browser.findElement(By.id("loginForm:login"));
-        button.click();
-//        browser.waitForPageToLoad("15000");
+        loginForm.setUsername("demo");
+        loginForm.setPassword("demo");
+        loginForm.click();
 
         Assert.assertTrue("User should be logged in!",
                 browser.findElements(By.xpath("//li[contains(text(), 'Welcome')]")).size() > 0);

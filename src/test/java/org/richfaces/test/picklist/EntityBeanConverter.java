@@ -19,39 +19,25 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  **/
-package org.richfaces.test.graphene.picklist;
+package org.richfaces.test.picklist;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-
-import java.util.ArrayList;
-import java.util.List;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 /**
  * @author <a href="http://community.jboss.org/people/bleathem">Brian Leathem</a>
  */
-public class PickListFragment {
-
-    @FindBy(css = ".rf-pick-src")
-    private WebElement sourceList;
-
-    @FindBy(css = ".rf-pick-tgt")
-    private WebElement targetList;
-
-    @FindBy(css = ".rf-pick-add-all")
-    private WebElement addAllButton;
-
-    public List<String> getSelectedItems() {
-        List<WebElement> elements = targetList.findElements(By.cssSelector(".rf-pick-opt"));
-        List<String> labels = new ArrayList<String>(elements.size());
-        for (WebElement element : elements) {
-            labels.add(element.getText());
-        }
-        return labels;
+@FacesConverter("EntityBeanConverter")
+public class EntityBeanConverter implements Converter {
+    public Object getAsObject(FacesContext facesContext, UIComponent component, String s) {
+        Integer value = Integer.parseInt(s);
+        return new EntityBean(String.format("Option %d", value), value.toString());
     }
 
-    public void addAll() {
-        addAllButton.click();
+    public String getAsString(FacesContext facesContext, UIComponent component, Object o) {
+        if (o == null) return null;
+        return ((EntityBean) o).getValue();
     }
 }
